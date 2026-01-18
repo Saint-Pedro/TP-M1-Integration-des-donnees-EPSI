@@ -110,5 +110,6 @@ Le dossier /sql/analysis.sql contient les requêtes pour répondre aux questions
 
 ## Auteurs
 * Astin LAURENS
+* Célian SUBIRANA
 
-Projet réalisé dans le cadre du Master 1 - Module TRDE703 Atelier Intégration des Données.
+Projet réalisé dans le cadre du Master 1 EPSI- Module TRDE703 Atelier Intégration des Données.

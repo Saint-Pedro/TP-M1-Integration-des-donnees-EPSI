@@ -28,3 +28,23 @@ Les requêtes SQL d'analyse ont permis d'identifier des incohérences fonctionne
 Pour passer en production, nous recommandons :
 1.  L'implémentation de **Great Expectations** pour automatiser les tests unitaires de données.
 2.  Le rejet des lignes critiques (ex: Code barre NULL) dans une table de rejet (`quarantine_table`).
+
+## 5. Observabilité et Monitoring
+
+Dans cette version prototype, les métriques d'exécution (nombre de lignes lues, rejetées, insérées) sont exposées via les **logs standards (stdout)** du driver Spark pour un debugging immédiat.
+
+**Format des métriques (Exemple de structure JSON cible pour la prod) :**
+```json
+{
+  "run_id": "2023-10-27_10-00-00",
+  "status": "SUCCESS",
+  "metrics": {
+    "rows_read": 50000,
+    "rows_written": 48950,
+    "quality_pass_rate": 97.9
+  },
+  "anomalies": {
+    "missing_code": 120,
+    "invalid_values": 930
+  }
+}

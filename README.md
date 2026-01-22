@@ -65,6 +65,18 @@ Le modèle cible est un schéma en étoile **(Star Schema)** conçu pour optimis
 
 * dim_time : Axe temporel (Année, Mois, Semaine) permettant l'analyse de l'évolution de la qualité des données.
 
+## Choix d'Implémentation & Limites (SCD)
+
+Conformément aux contraintes de l'environnement d'exécution (Google Colab, sessions éphémères), nous avons opté pour une stratégie de mise à jour simplifiée :
+
+* **Stratégie Actuelle :** **SCD Type 1 (Upsert/Snapshot)**.
+    * *Justification :* Nous privilégions la fraîcheur de la donnée ("Current State") pour les analyses nutritionnelles à l'instant T. Le dédoublonnage conserve uniquement la version la plus récente du produit basée sur `last_modified_t`.
+* **Cible Production (Idéale) :** **SCD Type 2 (Historisation)**.
+    * *Implémentation prévue :* Ajout des colonnes `effective_start_date`, `effective_end_date` et `is_current` dans la dimension produit.
+    * *Logique :* À chaque changement de Nutri-Score, clôturer l'ancienne ligne (UPDATE `effective_end_date` = NOW()) et insérer la nouvelle ligne.
+
+*Ce choix permet de garantir la performance du pipeline d'ingestion sur l'instance Spark locale sans exploser le stockage disque.*
+
 ## Installation et Exécution
 Ce projet a été conçu pour s'exécuter dans un environnement **Google Colab** (ou tout cluster Spark avec support JDBC).
 
